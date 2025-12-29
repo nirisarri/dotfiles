@@ -23,12 +23,15 @@ bindkey -e
 HISTSIZE=10000
 SAVEHIST=10000
 HISTFILE=~/.zsh_history
+setopt share_history
+setopt hist_expire_dups_first
+setopt hist_ignore_dups
+setopt hist_verify
 if [ -f "/proc/sys/fs/binfmt_misc/WSLInterop" ] || uname -r | grep -qEi "(microsoft|wsl)"; then
-  echo "Running on WSL"
   bindkey "^[[1;5D" backward-word
   bindkey "^[[1;5C" forward-word
-else
-  echo "Running Natively"
+  bindkey '^[[A' history-search-backward
+  bindkey '^[[B' history-search-forward
 fi
 
 # Use modern completion system
@@ -60,10 +63,10 @@ zstyle ':completion:*' verbose true
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
  
-alias ll='eza -l'
-alias la='eza -la'
-alias l='eza -l'
-alias ls='eza'
+alias ll='eza --icons=always -l'
+alias la='eza --icons=always -la'
+alias l='eza --icons=always -l'
+alias ls='eza --icons=always'
 
 alias d='docker'
 alias dc='docker compose'
@@ -71,8 +74,8 @@ alias dcup='docker compose up -d'
 alias dss='docker stack services'
 alias ds='docker stack'
 alias tf='terraform'
-alias cat='bat'
 alias cat2='cat'
+alias cat='bat'
 alias thanos='rm -rf'
 alias mk="minikube"
 alias k="kubectl"
@@ -121,3 +124,5 @@ source <(helm completion zsh)
 source <(kind completion zsh)
 
 eval "$(starship init zsh)"
+
+source /home/linuxbrew/.linuxbrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
