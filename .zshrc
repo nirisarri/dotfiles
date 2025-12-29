@@ -23,9 +23,13 @@ bindkey -e
 HISTSIZE=10000
 SAVEHIST=10000
 HISTFILE=~/.zsh_history
-
-bindkey "^[[1;5D" backward-word
-bindkey "^[[1;5C" forward-word
+if [ -f "/proc/sys/fs/binfmt_misc/WSLInterop" ] || uname -r | grep -qEi "(microsoft|wsl)"; then
+  echo "Running on WSL"
+  bindkey "^[[1;5D" backward-word
+  bindkey "^[[1;5C" forward-word
+else
+  echo "Running Natively"
+fi
 
 # Use modern completion system
 autoload -Uz compinit
@@ -76,9 +80,12 @@ alias kc="kubecolor"
 alias kk="kubecolor"
 alias ".."="cd .."
 
+
+if [ -f "/proc/sys/fs/binfmt_misc/WSLInterop" ] || uname -r | grep -qEi "(microsoft|wsl)"; then
+    alias ssh='ssh.exe'
+    alias ssh-add='ssh-add.exe'
+fi
 # These 2 aliases  hook up ssh to the 1Password SSH agent
-alias ssh='ssh.exe'
-alias ssh-add='ssh-add.exe'
 
 plugins=(zsh-autosuggestions zsh-syntax-highlighting zoxide)
 # . /home/nic/z.sh
