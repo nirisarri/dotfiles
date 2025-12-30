@@ -190,7 +190,7 @@
 
 [core]
 	editor = code -w
-	sshCommand = c:/Windows/System32/OpenSSH/ssh.exe
+	sshCommand = ssh.exe
 [safe]
 	directory = C:/Users/E2825918/mySettings
 [push]
