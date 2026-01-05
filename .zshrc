@@ -134,10 +134,8 @@ source <(kind completion zsh)
 # eval "$(starship init zsh)"
 # source /home/linuxbrew/.linuxbrew/share/powerlevel10k/powerlevel10k.zsh-theme
 if [ "$TERM_PROGRAM" != "Apple_Terminal" ]; then
-  eval "$(oh-my-posh init zsh --config ~/.config/oh-my-posh/nicpowerline_linux.omp.json)"
+  eval "$(oh-my-posh init zsh --config ~/.config/oh-my-posh/catpuccin_macchiato.omp.json)"
 fi
 
 source /home/linuxbrew/.linuxbrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
