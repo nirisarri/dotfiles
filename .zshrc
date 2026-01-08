@@ -10,17 +10,17 @@ fi
 # promptinit
 # prompt adam1
 
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+eval "$(/opt/homebrew/bin/brew shellenv)"
 setopt histignorealldups sharehistory
-path+=("/home/nic/.local/bin")
-path+=("/usr/local/go/bin")
+path+=("/Users/nic/.local/bin")
+# path+=("/usr/local/go/bin")
 # path+=("/home/nic/go/bin")
 
 # Pyenv path to override windows...
-path+=(" /home/nic/.pyenv")
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
+# path+=(" /home/nic/.pyenv")
+# export PYENV_ROOT="$HOME/.pyenv"
+# command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+# eval "$(pyenv init -)"
 ## eval "$(oh-my-posh init zsh --config ~/mySettings/nicpowerline_linux.omp.json)"
 # eval "$(starship init zsh)"
 # Use emacs keybindings even if our EDITOR is set to vi
@@ -72,7 +72,7 @@ zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
  
 alias ll='eza --icons=always -l'
 alias la='eza --icons=always -la'
-alias l='eza --icons=always -l'
+alias  l='eza --icons=always -l'
 alias ls='eza --icons=always'
 
 alias d='docker'
@@ -115,21 +115,21 @@ plugins=(zsh-autosuggestions zsh-syntax-highlighting zoxide)
 # compdef kubecolor=kubectl
 
 # get zsh complete kubectl
-source <(kubectl completion zsh)
-source <(kubecolor completion zsh)
+# source <(kubectl completion zsh)
+# source <(kubecolor completion zsh)
 # alias kubectl=kubecolor
 # make completion work with kubecolor
-autoload -U +X bashcompinit && bashcompinit
-complete -o nospace -C /usr/bin/kubecolor kubecolor
+# autoload -U +X bashcompinit && bashcompinit
+# complete -o nospace -C /usr/bin/kubecolor kubecolor
 
 #minikube autocompletion
-source <(minikube completion zsh)
+# source <(minikube completion zsh)
 
-source <(helm completion zsh)
+# source <(helm completion zsh)
 # Load Angular CLI autocompletion.
 # source <(ng completion script)
 
-source <(kind completion zsh)
+# source <(kind completion zsh)
 
 # eval "$(starship init zsh)"
 # source /home/linuxbrew/.linuxbrew/share/powerlevel10k/powerlevel10k.zsh-theme
@@ -137,5 +137,5 @@ if [ "$TERM_PROGRAM" != "Apple_Terminal" ]; then
   eval "$(oh-my-posh init zsh --config ~/.config/oh-my-posh/catpuccin_macchiato.omp.json)"
 fi
 
-source /home/linuxbrew/.linuxbrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-
+# source /home/linuxbrew/.linuxbrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
