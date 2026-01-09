@@ -127,7 +127,7 @@ alias dss='docker stack services'
 alias ds='docker stack'
 
 # Utility aliases
-alias tf='terraform'
+# alias tf='terraform'
 alias cat2='/bin/cat'          # Fallback to system cat
 alias cat='bat'               # Use bat for syntax-highlighted file viewing
 alias thanos='rm -rf'          # Dangerous remove (use with caution!)
