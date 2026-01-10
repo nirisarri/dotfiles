@@ -191,7 +191,7 @@
 [core]
   pager = delta
 	editor = code -w
-	sshCommand = ssh.exe
+	# sshCommand = ssh.exe
 
 [interactive]
   difffilter = delta --color-only
@@ -200,9 +200,7 @@
   dark = true
 [merge]
   conflictStyle = zdiff3
-[safe]
 
-	directory = C:/Users/E2825918/mySettings
 [push]
 	autoSetupRemote = true
 	default = current
