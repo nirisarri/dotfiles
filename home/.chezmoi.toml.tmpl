@@ -1,0 +1,18 @@
+{{- /* Git identity. Defaults below are used as-is where there's no TTY (DevPod
+       also copies your host identity into the container's ~/.gitconfig, which
+       wins). On interactive machines you're asked once; Enter keeps the
+       default, or type e.g. a personal email for that machine. */ -}}
+{{- $name := get . "name" | default "Nicolas De Irisarri" -}}
+{{- $email := get . "email" | default "nicolas.deirisarri@aspentech.com" -}}
+{{- if stdinIsATTY -}}
+{{-   $name = promptStringOnce . "name" "Git user.name" $name -}}
+{{-   $email = promptStringOnce . "email" "Git user.email" $email -}}
+{{- end -}}
+
+# Lets `chezmoi apply/edit/update` find this repo wherever it was cloned
+# (DevPod clones it outside ~/.local/share/chezmoi).
+sourceDir = {{ .chezmoi.sourceDir | quote }}
+
+[data]
+    name = {{ $name | quote }}
+    email = {{ $email | quote }}

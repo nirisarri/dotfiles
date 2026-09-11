@@ -1,0 +1,15 @@
+# Personal tools, installed globally on every machine/devcontainer these
+# dotfiles are applied to. Project-specific tools belong in each repo's mise.toml.
+[tools]
+bat = "latest"
+chezmoi = "latest"
+claude-code = "latest"
+delta = "latest"
+eza = "latest"
+fd = "latest"  # used by fzf (FZF_DEFAULT_COMMAND in .zshrc)
+fzf = "latest"
+jq = "latest"
+ripgrep = "latest"
+starship = "latest"
+yq = "latest"
+zoxide = "latest"

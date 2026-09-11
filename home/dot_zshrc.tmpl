@@ -1,0 +1,281 @@
+{{- $wsl := false -}}
+{{- if eq .chezmoi.os "linux" -}}
+{{-   if .chezmoi.kernel.osrelease | lower | contains "microsoft" -}}
+{{-     $wsl = true -}}
+{{-   end -}}
+{{- end -}}
+# ============================================================================
+# ZSH Configuration File (.zshrc) — managed by chezmoi
+# ============================================================================
+# Edit the source with `chezmoi edit ~/.zshrc`, then `chezmoi apply`.
+# Rendered per machine: macOS host, Linux devcontainers, WSL.
+# Machine-specific tweaks that shouldn't be shared go in ~/.zshrc.local.
+# ============================================================================
+
+# ============================================================================
+# HOMEBREW ENVIRONMENT
+# ============================================================================
+{{- if eq .chezmoi.os "darwin" }}
+export homebrew="/opt/homebrew"
+{{- else }}
+export homebrew="/home/linuxbrew/.linuxbrew"
+{{- end }}
+if [[ -x $homebrew/bin/brew ]]; then
+  path+=("$homebrew"/bin)
+  eval "$($homebrew/bin/brew shellenv)"
+fi
+
+# ============================================================================
+# PATH CONFIGURATION
+# ============================================================================
+path+=("$HOME/.local/bin")
+{{- if eq .chezmoi.os "darwin" }}
+path+=/Applications/GoLand.app/Contents/MacOS
+{{- end }}
+
+# path+=("/usr/local/go/bin")
+# path+=("$HOME/go/bin")
+
+# ============================================================================
+# MISE
+# ============================================================================
+# Activated early: zoxide, fzf, eza, bat, starship... are installed by mise.
+# Skipped when already active (the devcontainer's /etc/zsh/zshrc does it).
+if (( ! $+functions[_mise_hook] )) && (( $+commands[mise] )); then
+  eval "$(mise activate zsh)"
+fi
+
+# ============================================================================
+# HISTORY CONFIGURATION
+# ============================================================================
+HISTSIZE=10000
+SAVEHIST=10000
+HISTFILE=~/.zsh_history
+setopt share_history
+setopt hist_expire_dups_first
+setopt hist_ignore_dups
+setopt hist_verify
+
+# ============================================================================
+# KEYBINDINGS
+# ============================================================================
+# Use emacs keybindings even if our EDITOR is set to vi
+bindkey -e
+bindkey '^[[A' history-search-backward
+bindkey '^[[B' history-search-forward
+{{- if $wsl }}
+bindkey "^[[1;5D" backward-word
+bindkey "^[[1;5C" forward-word
+{{- else }}
+# Option+Left/Right (macOS terminals, also when attached to a devcontainer)
+bindkey '^[[1;3D' backward-word
+bindkey '^[[1;3C' forward-word
+{{- end }}
+
+# ============================================================================
+# COMPLETION SYSTEM
+# ============================================================================
+autoload -Uz compinit
+compinit
+
+zstyle ':completion:*' auto-description 'specify: %d'
+zstyle ':completion:*' completer _expand _complete _correct _approximate
+zstyle ':completion:*' format 'Completing %d'
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' menu select=2
+# eval "$(dircolors -b)"
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*' list-colors ''
+zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
+zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
+zstyle ':completion:*' menu select=long
+zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
+zstyle ':completion:*' use-compctl false
+zstyle ':completion:*' verbose true
+
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
+zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
+
+# ============================================================================
+# FZF (FUZZY FINDER) + ZOXIDE
+# ============================================================================
+if (( $+commands[fzf] )); then
+  source <(fzf --zsh)
+  # Use fd for faster file searching with fzf, excluding .git directories
+  export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
+  export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+  export FZF_ALT_C_COMMAND="fd --type d --hidden --strip-cwd-prefix --exclude .git"
+fi
+
+# zoxide must be initialised after compinit for its completions to work.
+if (( $+commands[zoxide] )); then
+  eval "$(zoxide init zsh)"
+  alias "cd"="z"
+fi
+
+# ============================================================================
+# COMMAND ALIASES
+# ============================================================================
+if (( $+commands[eza] )); then
+  alias ll='eza --git --icons=always -l'
+  alias la='eza --git --icons=always -la'
+  alias ls='eza --icons=always'
+  alias l='eza --git --icons=always -l'
+  alias tree='eza --git --icons=always -T'
+fi
+
+# Docker aliases
+alias d='docker'
+alias dc='docker compose'
+alias dcup='docker compose up -d'
+alias dss='docker stack services'
+alias ds='docker stack'
+
+# Utility aliases
+# alias tf='terraform'
+alias cat2='/bin/cat'          # Fallback to system cat
+(( $+commands[bat] )) && alias cat='bat'
+alias thanos='rm -rf'          # Dangerous remove (use with caution!)
+alias ".."="cd .."
+alias "..."="cd ../.."
+alias "...."="cd ../../.."
+alias "~"="cd ~"
+
+alias v='nvim'
+
+awsp() {
+  if [[ -z "$1" ]]; then
+    grep '^\[profile ' ~/.aws/config 2>/dev/null | sed 's/\[profile \(.*\)\]/\1/' | sort
+  else
+    if [[ "$1" == "-" ]]; then
+      unset AWS_PROFILE
+      echo "AWS_PROFILE unset"
+    else
+      export AWS_PROFILE="$1"
+      echo "AWS_PROFILE set to: $AWS_PROFILE"
+    fi
+  fi
+}
+{{- if $wsl }}
+
+# WSL: use the Windows ssh client/agent
+alias ssh='ssh.exe'
+alias ssh-add='ssh-add.exe'
+{{- end }}
+
+# ============================================================================
+# DISABLED: NVM (Node Version Manager) - Uncomment if needed
+# ============================================================================
+## export NVM_DIR="$HOME/.nvm"
+## [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+## [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# ============================================================================
+# DISABLED: kubectl autocompletion - Uncomment if using kubectl/kubecolor
+# ============================================================================
+# source <(kubectl completion zsh)
+# source <(kubecolor completion zsh)
+# compdef kubecolor=kubectl
+# autoload -U +X bashcompinit && bashcompinit
+# complete -o nospace -C /usr/bin/kubecolor kubecolor
+
+# ============================================================================
+# DISABLED: Kubernetes tools - Uncomment if using minikube, helm, kind, etc.
+# ============================================================================
+# source <(minikube completion zsh)
+# source <(helm completion zsh)
+# source <(kind completion zsh)
+
+# ============================================================================
+# PYENV
+# ============================================================================
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && path=("$PYENV_ROOT/bin" $path)
+(( $+commands[pyenv] )) && eval "$(pyenv init - zsh)"
+
+# ============================================================================
+# UV TOOL SHELL COMPLETIONS
+# ============================================================================
+(( $+commands[uv] )) && eval "$(uv generate-shell-completion zsh)"
+{{- if eq .chezmoi.os "darwin" }}
+
+# ============================================================================
+# SSH AGENT REDIRECT TO 1PASSWORD (macOS only — in devcontainers DevPod
+# forwards the host agent and sets SSH_AUTH_SOCK itself)
+# ============================================================================
+export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
+{{- end }}
+
+# ============================================================================
+# NVIM DOCKER WRAPPER FUNCTION
+# ============================================================================
+lvim () {
+  if [ ! $# -eq 0 ]; then
+    [[ -d "$1" ]] || [[ -f "$1" ]] || touch "$1"
+    [[ -f "$1" ]] && NWD="$(dirname $1)" || NWD="$(realpath $1)"
+    docker run -it --rm --name nvim-docker-cli-$(date +%s) \
+    -e NVIM_DISTRO="lazyvim" \
+    -w "/edit$NWD" \
+    -v "$(realpath $1)":"/edit$(realpath $1)" \
+    -v nvim-home:/root \
+    ghcr.io/lanjelin/nvim-docker:slim \
+    nvim "/edit$(realpath $1)"
+  else
+    docker run -it --rm --name nvim-docker-cli-$(date +%s) \
+    -e NVIM_DISTRO="lazyvim" \
+    -w "/root" \
+    -v nvim-home:/root \
+    ghcr.io/lanjelin/nvim-docker:slim \
+    nvim
+  fi
+}
+
+# ============================================================================
+# DISABLED: CLAUDE CODE DOCKER WRAPPER FUNCTION
+# ============================================================================
+# claude () {
+#   if [ ! $# -eq 0 ]; then
+#     [[ -d "$1" ]] || [[ -f "$1" ]] || touch "$1"
+#     [[ -f "$1" ]] && NWD="$(dirname $(realpath $1))" || NWD="$(realpath $1)"
+#     docker run -it --rm --name claude-docker-cli-$(date +%s) \
+#     -w "/work$NWD" \
+#     -v "$NWD":"/work$NWD" \
+#     -v "$HOME/.claude:/root/.claude" \
+#     ghcr.io/anthropics/claude-code:latest \
+#     claude
+#   else
+#     docker run -it --rm --name claude-docker-cli-$(date +%s) \
+#     -w "/work$(pwd)" \
+#     -v "$(pwd)":"/work$(pwd)" \
+#     -v "$HOME/.claude:/root/.claude" \
+#     ghcr.io/anthropics/claude-code:latest \
+#     claude
+#   fi
+# }
+
+# ============================================================================
+# PROMPT INITIALIZATION
+# ============================================================================
+# oh-my-posh where its config exists (your Mac), starship everywhere else.
+omp_config=~/.config/oh-my-posh/nicpowerline_linux.omp.json
+if [[ "$TERM_PROGRAM" != "Apple_Terminal" ]]; then
+  if (( $+commands[oh-my-posh] )) && [[ -f $omp_config ]]; then
+    eval "$(oh-my-posh init zsh --config $omp_config)"
+  elif (( $+commands[starship] )); then
+    eval "$(starship init zsh)"
+  fi
+fi
+unset omp_config
+
+[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
+
+# ============================================================================
+# ZSH PLUGIN SOURCING (fetched by chezmoi, see .chezmoiexternal.toml)
+# ============================================================================
+# zsh-syntax-highlighting must be sourced last.
+zsh_plugins=~/.local/share/zsh/plugins
+[[ -f $zsh_plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]] \
+  && source $zsh_plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+[[ -f $zsh_plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]] \
+  && source $zsh_plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+unset zsh_plugins

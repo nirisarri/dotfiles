@@ -1,0 +1,12 @@
+#!/bin/sh
+# Installs the personal tools from ~/.config/mise/config.toml.
+# Re-runs whenever that file changes: {{ include "dot_config/mise/config.toml" | sha256sum }}
+set -eu
+
+export PATH="$HOME/.local/bin:$PATH"
+if ! command -v mise >/dev/null 2>&1; then
+  curl -fsSL https://mise.run | sh
+fi
+
+cd "$HOME"
+mise install --yes
