@@ -1,9 +1,9 @@
-{{- /* Git identity. Defaults below are used as-is where there's no TTY (DevPod
-       also copies your host identity into the container's ~/.gitconfig, which
-       wins). On interactive machines you're asked once; Enter keeps the
-       default, or type e.g. a personal email for that machine. */ -}}
-{{- $name := get . "name" | default "Nicolas De Irisarri" -}}
-{{- $email := get . "email" | default "nicolas.deirisarri@aspentech.com" -}}
+{{- /* Git identity. Placeholders below are only used where there's no TTY to
+       prompt (DevPod also copies your host identity into the container's
+       ~/.gitconfig, which wins). On interactive machines you're asked once and
+       the answer is stored in the generated ~/.config/chezmoi/chezmoi.toml. */ -}}
+{{- $name := get . "name" | default (env "GIT_AUTHOR_NAME") | default "Nicolas De Irisarri" -}}
+{{- $email := get . "email" | default (env "GIT_AUTHOR_EMAIL") | default "nirisarri@users.noreply.github.com" -}}
 {{- if stdinIsATTY -}}
 {{-   $name = promptStringOnce . "name" "Git user.name" $name -}}
 {{-   $email = promptStringOnce . "email" "Git user.email" $email -}}
