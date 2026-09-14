@@ -9,6 +9,7 @@ and [mise](https://mise.jdx.dev). Works on macOS, WSL and in any devcontainer.
 | `dot_config/git/config.tmpl`                 | `~/.config/git/config`       |
 | `dot_config/mise/config.toml`                | `~/.config/mise/config.toml` |
 | `dot_config/starship.toml`                   | `~/.config/starship.toml`    |
+| `private_dot_ssh/gh-personal.pub`, `gh-aim.pub` | `~/.ssh/` (public keys only, to pick a GitHub key per repo) |
 | `.chezmoi.toml.tmpl`                         | `~/.config/chezmoi/chezmoi.toml` (git name/email) |
 | `run_onchange_after_10-mise-install.sh.tmpl` | runs `mise install` when the tool list changes |
 | `.chezmoiexternal.toml`                      | zsh-autosuggestions + zsh-syntax-highlighting in `~/.local/share/zsh/plugins` (refreshed weekly) |
