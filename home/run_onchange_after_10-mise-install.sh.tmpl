@@ -5,7 +5,9 @@ set -eu
 
 export PATH="$HOME/.local/bin:$PATH"
 if ! command -v mise >/dev/null 2>&1; then
-  curl -fsSL https://mise.run/zsh | sh
+  # Plain https://mise.run installs the binary only; the /zsh flavour appends
+  # `mise activate` to ~/.zshrc, which chezmoi owns and already activates mise.
+  curl -fsSL https://mise.run | sh
 fi
 
 cd "$HOME"
