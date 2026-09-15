@@ -36,6 +36,15 @@ path+=/Applications/GoLand.app/Contents/MacOS
 # path+=("/usr/local/go/bin")
 # path+=("$HOME/go/bin")
 
+# ============================================================================
+# MISE
+# ============================================================================
+# Must run before the tool-detection blocks below: starship, zoxide, eza, bat
+# and fzf all live in mise's PATH, so `(( $+commands[...] ))` fails without it.
+if [[ -x $HOME/.local/bin/mise ]]; then
+  eval "$($HOME/.local/bin/mise activate zsh)"
+fi
+
 
 # ============================================================================
 # HISTORY CONFIGURATION
