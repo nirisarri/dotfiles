@@ -2,6 +2,10 @@
 # Edit the source with `chezmoi edit ~/.config/starship.toml`, then `chezmoi apply`.
 # Docs: https://starship.rs/config/
 # Preview after editing: `starship prompt` (or open a new shell).
+#
+# Palette: Tokyo Night (https://starship.rs/presets/toml/tokyo-night.toml)
+#   #a3aed2 lavender · #769ff0 blue · #394260 git · #212736 versions
+#   accents: #f7768e red · #9ece6a green · #e0af68 yellow · #a0a9cb muted
 
 "$schema" = "https://starship.rs/config-schema.json"
 
@@ -21,6 +25,8 @@ $java\
 $lua\
 $ruby\
 $c\
+$time\
+[](fg:#212736)\
 $aws\
 $cmd_duration\
 $line_break\
@@ -33,14 +39,14 @@ $character"""
 # absent entirely.
 # ----------------------------------------------------------------------------
 [username]
-style_user = "bg:bright-black fg:white"
-style_root = "bg:bright-black fg:red"
+style_user = "bg:#a3aed2 fg:#090c0c"
+style_root = "bg:#a3aed2 fg:#7d2331"
 format = "[ $user ]($style)"
 show_always = false
 
 [hostname]
 ssh_only = true
-style = "bg:bright-black fg:white"
+style = "bg:#a3aed2 fg:#090c0c"
 format = "[@$hostname ]($style)"
 disabled = false
 
@@ -49,65 +55,76 @@ disabled = false
 # right before it (so the arrow into git/etc. is always the right color).
 # ----------------------------------------------------------------------------
 [directory]
-style = "bg:blue fg:black"
-format = "[](fg:bright-black bg:blue)[ 󰉋 $path ]($style)"
+style = "bg:#769ff0 fg:#e3e5e5"
+format = "[](fg:#a3aed2 bg:#769ff0)[ 󰉋 $path ]($style)"
 truncation_length = 3
+truncation_symbol = "…/"
 truncate_to_repo = true
 read_only = " 󰌾"
-read_only_style = "bg:blue fg:red"
+read_only_style = "bg:#769ff0 fg:#f7768e"
 
 # ----------------------------------------------------------------------------
-# Git — branch + status share one green block. Only fires inside a repo, so
+# Git — branch + status share one #394260 block. Only fires inside a repo, so
 # it (and its leading arrow) simply disappears outside one.
 # ----------------------------------------------------------------------------
 [git_branch]
-style = "bg:green fg:black"
-format = "[](fg:blue bg:green)[  $branch ]($style)"
+style = "bg:#394260 fg:#769ff0"
+format = "[](fg:#769ff0 bg:#394260)[  $branch ]($style)"
 
 [git_status]
-style = "bg:green fg:black"
+style = "bg:#394260 fg:#769ff0"
 format = "[($all_status$ahead_behind )]($style)"
 
 # ----------------------------------------------------------------------------
-# Language versions — one shared yellow block. Only the language modules
+# Language versions — one shared #212736 block. Only the language modules
 # actually relevant to the current directory render, mise-managed versions
 # included. Each carries the same leading arrow so whichever one fires first
 # still connects cleanly from the git segment.
 # ----------------------------------------------------------------------------
 [nodejs]
-style = "bg:yellow fg:black"
-format = "[](fg:green bg:yellow)[ $symbol$version ]($style)"
+style = "bg:#212736 fg:#769ff0"
+format = "[](fg:#394260 bg:#212736)[ $symbol$version ]($style)"
 
 [python]
-style = "bg:yellow fg:black"
-format = "[](fg:green bg:yellow)[ $symbol$version ]($style)"
+style = "bg:#212736 fg:#769ff0"
+format = "[](fg:#394260 bg:#212736)[ $symbol$version ]($style)"
 
 [golang]
-style = "bg:yellow fg:black"
-format = "[](fg:green bg:yellow)[ $symbol$version ]($style)"
+style = "bg:#212736 fg:#769ff0"
+format = "[](fg:#394260 bg:#212736)[ $symbol$version ]($style)"
 
 [rust]
-style = "bg:yellow fg:black"
-format = "[](fg:green bg:yellow)[ $symbol$version ]($style)"
+style = "bg:#212736 fg:#769ff0"
+format = "[](fg:#394260 bg:#212736)[ $symbol$version ]($style)"
 
 [java]
-style = "bg:yellow fg:black"
-format = "[](fg:green bg:yellow)[ $symbol$version ]($style)"
+style = "bg:#212736 fg:#769ff0"
+format = "[](fg:#394260 bg:#212736)[ $symbol$version ]($style)"
 
 [lua]
-style = "bg:yellow fg:black"
-format = "[](fg:green bg:yellow)[ $symbol$version ]($style)"
+style = "bg:#212736 fg:#769ff0"
+format = "[](fg:#394260 bg:#212736)[ $symbol$version ]($style)"
 
 [ruby]
-style = "bg:yellow fg:black"
-format = "[](fg:green bg:yellow)[ $symbol$version ]($style)"
+style = "bg:#212736 fg:#769ff0"
+format = "[](fg:#394260 bg:#212736)[ $symbol$version ]($style)"
 
 [c]
-style = "bg:yellow fg:black"
-format = "[](fg:green bg:yellow)[ $symbol$version ]($style)"
+style = "bg:#212736 fg:#769ff0"
+format = "[](fg:#394260 bg:#212736)[ $symbol$version ]($style)"
 
+# ----------------------------------------------------------------------------# Time — the chain's terminator. Shares the #212736 block and leading-arrow
+# styling of the language modules, so it reads as one more segment when a
+# language renders and blends straight off git when none does. Because it is
+# always present, the closing cap in `format` can be a constant color.
 # ----------------------------------------------------------------------------
-# AWS profile + command duration — plain colored text rather than more
+[time]
+disabled = false
+time_format = "%R"
+style = "bg:#212736 fg:#a0a9cb"
+format = "[](fg:#394260 bg:#212736)[  $time ]($style)"
+
+# ----------------------------------------------------------------------------# AWS profile + command duration — plain colored text rather than more
 # powerline blocks. Both are occasional/orthogonal to the chain above (an
 # AWS profile can be set with no language module active, and vice versa), so
 # blocking them in would risk a mismatched arrow color; plain text sidesteps
@@ -115,12 +132,12 @@ format = "[](fg:green bg:yellow)[ $symbol$version ]($style)"
 # ----------------------------------------------------------------------------
 [aws]
 symbol = " "
-style = "bold red"
+style = "bold #f7768e"
 format = " [$symbol$profile]($style)"
 
 [cmd_duration]
 min_time = 2000
-style = "bold yellow"
+style = "bold #e0af68"
 format = " [ took $duration]($style)"
 
 # ----------------------------------------------------------------------------
@@ -129,10 +146,10 @@ format = " [ took $duration]($style)"
 [status]
 disabled = false
 symbol = "✖ "
-style = "bold red"
+style = "bold #f7768e"
 format = "[$symbol$status]($style) "
 
 [character]
-success_symbol = "[❯](bold green)"
-error_symbol = "[❯](bold red)"
-vimcmd_symbol = "[❮](bold green)"
+success_symbol = "[❯](bold #9ece6a)"
+error_symbol = "[❯](bold #f7768e)"
+vimcmd_symbol = "[❮](bold #9ece6a)"
