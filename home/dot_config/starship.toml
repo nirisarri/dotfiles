@@ -24,6 +24,7 @@ $rust\
 $java\
 $lua\
 $ruby\
+$bun\
 $c\
 $time\
 [](fg:#212736)\
@@ -81,6 +82,10 @@ format = "[($all_status$ahead_behind )]($style)"
 # included. Each carries the same leading arrow so whichever one fires first
 # still connects cleanly from the git segment.
 # ----------------------------------------------------------------------------
+[bun]
+style = "bg:#212736 fg:#769ff0"
+format = "[](fg:#394260 bg:#212736)[ $symbol$version ]($style)"
+
 [nodejs]
 style = "bg:#212736 fg:#769ff0"
 format = "[](fg:#394260 bg:#212736)[ $symbol$version ]($style)"
