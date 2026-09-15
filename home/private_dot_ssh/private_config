@@ -1,0 +1,32 @@
+# ~/.ssh/config — managed by chezmoi.
+#
+# Deployed on Linux only (see .chezmoiignore): on macOS this file is owned by
+# OrbStack (which requires its `Include` line to stay at the very top) and by
+# DevPod (which injects a `# DevPod Start ...` block per workspace), so chezmoi
+# deliberately keeps its hands off it there.
+#
+# Only public keys are referenced. The private halves never enter a container:
+# ssh reads the .pub file, then asks the forwarded agent (1Password on the Mac)
+# to sign with the matching key. `IdentitiesOnly yes` stops ssh from offering
+# every other key in the agent first, which otherwise burns authentication
+# attempts and can tear down the forwarded agent channel.
+
+Host github-personal
+	HostName github.com
+	User git
+	IdentityFile ~/.ssh/gh-personal.pub
+	IdentitiesOnly yes
+
+Host github-aim
+	HostName github.com
+	User git
+	IdentityFile ~/.ssh/gh-aim.pub
+	IdentitiesOnly yes
+
+# Bare github.com defaults to the personal key, matching the 1Password agent
+# ordering in ~/.config/1Password/ssh/agent.toml. Use the github-aim alias for
+# work repositories.
+Host github.com
+	User git
+	IdentityFile ~/.ssh/gh-personal.pub
+	IdentitiesOnly yes

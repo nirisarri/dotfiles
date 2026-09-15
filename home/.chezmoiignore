@@ -1,0 +1,6 @@
+{{- /* On macOS ~/.ssh/config is written to directly by OrbStack (Include line
+       must stay first) and by DevPod (per-workspace `# DevPod Start` blocks),
+       so chezmoi must not manage it there. */ -}}
+{{- if eq .chezmoi.os "darwin" }}
+.ssh/config
+{{- end }}
