@@ -3,7 +3,6 @@
 [tools]
 bat = "latest"
 chezmoi = "latest"
-claude-code = "latest"
 delta = "latest"
 eza = "latest"
 fd = "latest"  # used by fzf (FZF_DEFAULT_COMMAND in .zshrc)
