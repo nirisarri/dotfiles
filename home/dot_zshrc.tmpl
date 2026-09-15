@@ -36,14 +36,6 @@ path+=/Applications/GoLand.app/Contents/MacOS
 # path+=("/usr/local/go/bin")
 # path+=("$HOME/go/bin")
 
-# ============================================================================
-# MISE
-# ============================================================================
-# Activated early: zoxide, fzf, eza, bat, starship... are installed by mise.
-# Skipped when already active (the devcontainer's /etc/zsh/zshrc does it).
-if (( ! $+functions[_mise_hook] )) && (( $+commands[mise] )); then
-  eval "$(mise activate zsh)"
-fi
 
 # ============================================================================
 # HISTORY CONFIGURATION
