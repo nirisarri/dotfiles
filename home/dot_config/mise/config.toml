@@ -1,15 +1,27 @@
 # Personal tools, installed globally on every machine/devcontainer these
 # dotfiles are applied to. Project-specific tools belong in each repo's mise.toml.
 [tools]
+apm = "latest"
+awscli = "latest"
+azure-cli = "latest"
 bat = "latest"
 chezmoi = "latest"
 delta = "latest"
+devcontainer = "latest"
 eza = "latest"
 fd = "latest"  # used by fzf (FZF_DEFAULT_COMMAND in .zshrc)
 fzf = "latest"
+gh = "latest"
+git-lfs = "latest"
 jq = "latest"
+lazygit = "latest"
+mkcert = "latest"
 neovim = "latest"
+powershell = "latest"
+rclone = "latest"
 ripgrep = "latest"
 starship = "latest"
+tlrc = "latest"
+uv = "latest"
 yq = "latest"
 zoxide = "latest"

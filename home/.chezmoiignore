@@ -4,3 +4,13 @@
 {{- if eq .chezmoi.os "darwin" }}
 .ssh/config
 {{- end }}
+
+{{- /* Host-only: wezterm, the 1Password SSH agent config, the Homebrew
+       Bundle (casks + formulae mise doesn't cover), and VS Code's local
+       desktop settings only apply to the Mac. */ -}}
+{{- if ne .chezmoi.os "darwin" }}
+.wezterm.lua
+.config/1Password
+.config/homebrew
+Library
+{{- end }}

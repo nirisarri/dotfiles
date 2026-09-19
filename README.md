@@ -13,12 +13,34 @@ and [mise](https://mise.jdx.dev). Works on macOS, WSL and in any devcontainer.
 | `.chezmoi.toml.tmpl`                         | `~/.config/chezmoi/chezmoi.toml` (git name/email) |
 | `run_onchange_after_10-mise-install.sh.tmpl` | runs `mise install` when the tool list changes |
 | `.chezmoiexternal.toml`                      | zsh-autosuggestions + zsh-syntax-highlighting in `~/.local/share/zsh/plugins` (refreshed weekly) |
+| `dot_wezterm.lua`                            | `~/.wezterm.lua` (macOS only) |
+| `dot_config/1Password/ssh/agent.toml`        | `~/.config/1Password/ssh/agent.toml` (macOS only; key/vault references only, no secrets) |
+| `dot_config/homebrew/Brewfile`               | `~/.config/homebrew/Brewfile` (macOS only) |
+| `run_onchange_before_05-brew-bundle.sh.tmpl` | installs Homebrew if missing and runs `brew bundle` when the Brewfile changes (macOS only, no-op elsewhere) |
+| `Library/Application Support/Code/User/settings.json` | same path under `~/` (macOS only; VS Code desktop settings) |
 
 `install.sh` at the repo root is the bootstrap entry point for DevPod,
 VS Code Dev Containers and Codespaces.
 
-Personal tools: bat, chezmoi, claude-code, delta, eza, fd, fzf, jq, ripgrep, starship, yq, zoxide.
-Project tools (dotnet, gh, az, ...) stay in each project's `mise.toml`.
+Personal tools (shared by host + every devcontainer): apm, awscli, azure-cli,
+bat, chezmoi, claude-code, delta, devcontainer, eza, fd, fzf, gh, git-lfs, jq,
+lazygit, mkcert, neovim, powershell, rclone, ripgrep, starship, tlrc, uv, yq,
+zoxide. Project-specific tools (dotnet, ...) stay in each project's `mise.toml`.
+
+## macOS host: Homebrew
+
+Homebrew is kept for GUI apps/casks and CLI tools mise doesn't cover (see
+`dot_config/homebrew/Brewfile`), applied automatically by
+`run_onchange_before_05-brew-bundle.sh.tmpl` whenever the Brewfile changes.
+To add something:
+
+- A CLI tool mise supports (check `mise registry`) → add it to
+  `dot_config/mise/config.toml` instead, so it's shared with devcontainers too.
+- A GUI app/cask, or a CLI tool mise doesn't support → add it to the Brewfile.
+
+`~/.aws/config` is intentionally *not* managed here — it has real AWS account
+IDs and SSO details that don't belong in a public repo as plain text; set it
+up by hand on the Mac (or template it with `onepasswordRead` later).
 
 Git config lives in `~/.config/git/config` (not `~/.gitconfig`) so it never
 overwrites the credential helper DevPod / VS Code inject into `~/.gitconfig`.
@@ -27,8 +49,7 @@ Machine-specific shell tweaks that shouldn't be shared go in `~/.zshrc.local`.
 
 ## Prompt
 
-oh-my-posh when `~/.config/oh-my-posh/nicpowerline_linux.omp.json` exists
-(the Mac), starship everywhere else (neither in Apple Terminal).
+starship everywhere (except Apple Terminal, which doesn't render it well).
 
 The starship config is a two-line powerline prompt: directory and git status
 as connected blocks, mise-managed language versions, AWS profile and command

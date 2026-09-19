@@ -257,16 +257,9 @@ lvim () {
 # ============================================================================
 # PROMPT INITIALIZATION
 # ============================================================================
-# oh-my-posh where its config exists (your Mac), starship everywhere else.
-omp_config=~/.config/oh-my-posh/nicpowerline_linux.omp.json
-if [[ "$TERM_PROGRAM" != "Apple_Terminal" ]]; then
-  if (( $+commands[oh-my-posh] )) && [[ -f $omp_config ]]; then
-    eval "$(oh-my-posh init zsh --config $omp_config)"
-  elif (( $+commands[starship] )); then
-    eval "$(starship init zsh)"
-  fi
+if [[ "$TERM_PROGRAM" != "Apple_Terminal" ]] && (( $+commands[starship] )); then
+  eval "$(starship init zsh)"
 fi
-unset omp_config
 
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
 
