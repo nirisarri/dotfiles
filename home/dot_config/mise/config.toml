@@ -7,7 +7,6 @@ azure-cli = "latest"
 bat = "latest"
 chezmoi = "latest"
 delta = "latest"
-devcontainer = "latest"
 eza = "latest"
 fd = "latest"  # used by fzf (FZF_DEFAULT_COMMAND in .zshrc)
 fzf = "latest"

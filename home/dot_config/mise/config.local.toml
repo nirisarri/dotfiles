@@ -1,0 +1,7 @@
+# Host-only tools — mise loads this automatically alongside config.toml,
+# but chezmoi only deploys it on macOS (see .chezmoiignore), so it never
+# reaches a devcontainer. Add tools here that make sense on the Mac itself
+# but not inside a container (e.g. devcontainer, since running it from
+# inside a devcontainer is a nested-container edge case, not the norm).
+[tools]
+devcontainer = "latest"

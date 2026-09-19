@@ -8,6 +8,7 @@ and [mise](https://mise.jdx.dev). Works on macOS, WSL and in any devcontainer.
 | `dot_zshrc.tmpl`                             | `~/.zshrc`                   |
 | `dot_config/git/config.tmpl`                 | `~/.config/git/config`       |
 | `dot_config/mise/config.toml`                | `~/.config/mise/config.toml` |
+| `dot_config/mise/config.local.toml`          | `~/.config/mise/config.local.toml` (macOS only; host-only tools, see below) |
 | `dot_config/starship.toml`                   | `~/.config/starship.toml`    |
 | `private_dot_ssh/gh-personal.pub`, `gh-aim.pub` | `~/.ssh/` (public keys only, to pick a GitHub key per repo) |
 | `.chezmoi.toml.tmpl`                         | `~/.config/chezmoi/chezmoi.toml` (git name/email) |
@@ -23,9 +24,14 @@ and [mise](https://mise.jdx.dev). Works on macOS, WSL and in any devcontainer.
 VS Code Dev Containers and Codespaces.
 
 Personal tools (shared by host + every devcontainer): apm, awscli, azure-cli,
-bat, chezmoi, claude-code, delta, devcontainer, eza, fd, fzf, gh, git-lfs, jq,
-lazygit, mkcert, neovim, powershell, rclone, ripgrep, starship, tlrc, uv, yq,
-zoxide. Project-specific tools (dotnet, ...) stay in each project's `mise.toml`.
+bat, chezmoi, claude-code, delta, eza, fd, fzf, gh, git-lfs, jq, lazygit,
+mkcert, neovim, powershell, rclone, ripgrep, starship, tlrc, uv, yq, zoxide.
+Project-specific tools (dotnet, ...) stay in each project's `mise.toml`.
+
+Host-only tools (mise auto-loads `config.local.toml` alongside `config.toml`;
+chezmoi only deploys it on macOS, so it never reaches a devcontainer):
+devcontainer — installing the `devcontainer` CLI *inside* a devcontainer is a
+nested-container edge case, not the norm, so it's Mac-only.
 
 ## macOS host: Homebrew
 

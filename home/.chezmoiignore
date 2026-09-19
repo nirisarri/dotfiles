@@ -12,5 +12,6 @@
 .wezterm.lua
 .config/1Password
 .config/homebrew
+.config/mise/config.local.toml
 Library
 {{- end }}
