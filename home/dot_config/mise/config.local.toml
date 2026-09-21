@@ -4,4 +4,4 @@
 # but not inside a container (e.g. devcontainer, since running it from
 # inside a devcontainer is a nested-container edge case, not the norm).
 [tools]
-devcontainer = "latest"
+devcontainer-cli = "latest"
