@@ -106,6 +106,8 @@ if (( $+commands[fzf] )); then
   export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
   export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
   export FZF_ALT_C_COMMAND="fd --type d --hidden --strip-cwd-prefix --exclude .git"
+  export FZF_CTRL_T_OPTS="--preview 'bat --color=always --number {}"
+  export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always --level=2 {}"
 fi
 
 # zoxide must be initialised after compinit for its completions to work.
@@ -113,6 +115,19 @@ if (( $+commands[zoxide] )); then
   eval "$(zoxide init zsh)"
   alias "cd"="z"
 fi
+
+# alias to open fzf with a preview window for file contents or directory tree
+fzp() {
+  fzf --preview 'bat --color=always --style=numbers --line-range=:500 {} 2>/dev/null || eza --tree --color=always --level=2 {}' \
+      --preview-window=right,60%,border-left \
+      --bind 'ctrl-/:toggle-preview' "$@"
+}
+
+# alias to open a file selected via fzf in the default editor
+vf() {
+  local file
+  file=$(fzp --query="$1") && ${EDITOR:-vim} "$file"
+}
 
 # ============================================================================
 # COMMAND ALIASES
@@ -142,50 +157,34 @@ alias "..."="cd ../.."
 alias "...."="cd ../../.."
 alias "~"="cd ~"
 
-alias v='nvim'
+# Neovim as the default editor if available
+if (( $+commands[nvim] )); then
+  alias v='nvim'
+  export EDITOR="nvim"
+fi
 
-awsp() {
-  if [[ -z "$1" ]]; then
-    grep '^\[profile ' ~/.aws/config 2>/dev/null | sed 's/\[profile \(.*\)\]/\1/' | sort
-  else
-    if [[ "$1" == "-" ]]; then
-      unset AWS_PROFILE
-      echo "AWS_PROFILE unset"
+# AWS PROFILE MANAGEMENT FUNCTION
+if (( $+commands[aws] )); then
+  awsp() {
+    if [[ -z "$1" ]]; then
+      grep '^\[profile ' ~/.aws/config 2>/dev/null | sed 's/\[profile \(.*\)\]/\1/' | sort
     else
-      export AWS_PROFILE="$1"
-      echo "AWS_PROFILE set to: $AWS_PROFILE"
+      if [[ "$1" == "-" ]]; then
+        unset AWS_PROFILE
+        echo "AWS_PROFILE unset"
+      else
+        export AWS_PROFILE="$1"
+        echo "AWS_PROFILE set to: $AWS_PROFILE"
+      fi
     fi
-  fi
-}
+  }
+fi
 {{- if $wsl }}
 
 # WSL: use the Windows ssh client/agent
 alias ssh='ssh.exe'
 alias ssh-add='ssh-add.exe'
 {{- end }}
-
-# ============================================================================
-# DISABLED: NVM (Node Version Manager) - Uncomment if needed
-# ============================================================================
-## export NVM_DIR="$HOME/.nvm"
-## [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-## [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# ============================================================================
-# DISABLED: kubectl autocompletion - Uncomment if using kubectl/kubecolor
-# ============================================================================
-# source <(kubectl completion zsh)
-# source <(kubecolor completion zsh)
-# compdef kubecolor=kubectl
-# autoload -U +X bashcompinit && bashcompinit
-# complete -o nospace -C /usr/bin/kubecolor kubecolor
-
-# ============================================================================
-# DISABLED: Kubernetes tools - Uncomment if using minikube, helm, kind, etc.
-# ============================================================================
-# source <(minikube completion zsh)
-# source <(helm completion zsh)
-# source <(kind completion zsh)
 
 # ============================================================================
 # PYENV
@@ -207,52 +206,7 @@ export PYENV_ROOT="$HOME/.pyenv"
 export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
 {{- end }}
 
-# ============================================================================
-# NVIM DOCKER WRAPPER FUNCTION
-# ============================================================================
-lvim () {
-  if [ ! $# -eq 0 ]; then
-    [[ -d "$1" ]] || [[ -f "$1" ]] || touch "$1"
-    [[ -f "$1" ]] && NWD="$(dirname $1)" || NWD="$(realpath $1)"
-    docker run -it --rm --name nvim-docker-cli-$(date +%s) \
-    -e NVIM_DISTRO="lazyvim" \
-    -w "/edit$NWD" \
-    -v "$(realpath $1)":"/edit$(realpath $1)" \
-    -v nvim-home:/root \
-    ghcr.io/lanjelin/nvim-docker:slim \
-    nvim "/edit$(realpath $1)"
-  else
-    docker run -it --rm --name nvim-docker-cli-$(date +%s) \
-    -e NVIM_DISTRO="lazyvim" \
-    -w "/root" \
-    -v nvim-home:/root \
-    ghcr.io/lanjelin/nvim-docker:slim \
-    nvim
-  fi
-}
 
-# ============================================================================
-# DISABLED: CLAUDE CODE DOCKER WRAPPER FUNCTION
-# ============================================================================
-# claude () {
-#   if [ ! $# -eq 0 ]; then
-#     [[ -d "$1" ]] || [[ -f "$1" ]] || touch "$1"
-#     [[ -f "$1" ]] && NWD="$(dirname $(realpath $1))" || NWD="$(realpath $1)"
-#     docker run -it --rm --name claude-docker-cli-$(date +%s) \
-#     -w "/work$NWD" \
-#     -v "$NWD":"/work$NWD" \
-#     -v "$HOME/.claude:/root/.claude" \
-#     ghcr.io/anthropics/claude-code:latest \
-#     claude
-#   else
-#     docker run -it --rm --name claude-docker-cli-$(date +%s) \
-#     -w "/work$(pwd)" \
-#     -v "$(pwd)":"/work$(pwd)" \
-#     -v "$HOME/.claude:/root/.claude" \
-#     ghcr.io/anthropics/claude-code:latest \
-#     claude
-#   fi
-# }
 
 # ============================================================================
 # PROMPT INITIALIZATION
