@@ -7,8 +7,8 @@ brew "git"
 brew "htop"
 # User-friendly cURL replacement (command-line HTTP client)
 brew "httpie"
-# Fast, highly customisable system info script
-brew "neofetch"
+# Fast, highly customisable system info script (neofetch is unmaintained/removed from homebrew-core)
+brew "fastfetch"
 # Python version management
 brew "pyenv"
 # JavaScript toolchain manager for reproducible environments
