@@ -4,6 +4,7 @@ format = """
 [░▒▓](#a3aed2)\
 $os\
 $container\
+${env_var.CHEZMOI_ARGS}\
 [](bg:#769ff0 fg:#a3aed2)\
 $directory\
 [](fg:#769ff0 bg:#394260)\
@@ -21,6 +22,12 @@ $dotnet\
 $time\
 [ ](fg:#1d2230)\
 \n$character"""
+
+[env_var.CHEZMOI_ARGS]
+variable = "CHEZMOI_ARGS"
+style = "bg:#a3aed2 fg:#394260"
+symbol = " "
+format = "[ $symbol ]($style)"
 
 [container]
 symbol = "🐳"
