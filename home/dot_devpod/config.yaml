@@ -1,0 +1,20 @@
+contexts:
+  default:
+    defaultIde: none
+    defaultProvider: docker
+    options:
+      DOTFILES_URL:
+        userProvided: true
+        value: git@github.com:nirisarri/dotfiles.git
+    providers:
+      docker:
+        creationTimestamp: "2026-07-29T18:30:24Z"
+        initialized: true
+        options:
+          DOCKER_BUILDER: {}
+          DOCKER_HOST: {}
+          DOCKER_PATH:
+            value: docker
+          INACTIVITY_TIMEOUT: {}
+        singleMachine: true
+defaultContext: default
