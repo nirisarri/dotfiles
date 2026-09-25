@@ -2,10 +2,32 @@ local wezterm = require("wezterm")
 local config = wezterm.config_builder()
 local act = wezterm.action
 
+local function shell_quote(s)
+	return "'" .. s:gsub("'", "'\\''") .. "'"
+end
+
+-- Run the command through a login shell so it inherits the full PATH
+-- (e.g. Homebrew paths set up in .zprofile/.zshrc), since wezterm spawns
+-- the raw argv directly and would otherwise only see a minimal PATH.
+local function via_login_shell(argv)
+	local shell = os.getenv("SHELL") or "/bin/zsh"
+	local quoted = {}
+	for _, a in ipairs(argv) do
+		table.insert(quoted, shell_quote(a))
+	end
+	return { shell, "-l", "-c", table.concat(quoted, " ") }
+end
+
 local function get_ssh_args(pane)
 	local info = pane:get_foreground_process_info()
-	if info and info.executable and (info.executable:match("/ssh$") or info.executable:match("/devpod ssh$")) then
-		return info.argv
+	if not (info and info.executable and info.argv) then
+		return nil
+	end
+	if info.executable:match("/ssh$") then
+		return via_login_shell(info.argv)
+	end
+	if info.executable:match("/devpod$") and info.argv[2] == "ssh" then
+		return via_login_shell(info.argv)
 	end
 	return nil
 end
@@ -97,9 +119,24 @@ config.keys = {
 		action = act.SpawnWindow,
 	},
 	{
+		key = "[",
+		mods = "CMD|CTRL",
+		action = wezterm.action.ActivateTabRelative(-1),
+	},
+	{
+		key = "]",
+		mods = "CMD|CTRL",
+		action = wezterm.action.ActivateTabRelative(1),
+	},
+	{
+		key = "[",
+		mods = "CMD",
+		action = wezterm.action.ActivatePaneDirection("Prev"),
+	},
+	{
 		key = "]",
 		mods = "CMD",
-		action = wezterm.action.ActivateTabRelative(1),
+		action = wezterm.action.ActivatePaneDirection("Next"),
 	},
 	{
 		key = "b",
@@ -134,6 +171,24 @@ config.keys = {
 		key = "d",
 		mods = "CMD|ALT",
 		action = smart_split("Bottom"),
+	},
+	{
+		key = "=",
+		mods = "CTRL|SHIFT",
+		action = wezterm.action_callback(function(window, pane)
+			local overrides = pane:get_config_overrides() or {}
+			overrides.font_size = (overrides.font_size or config.font_size or 12) + 1.0
+			pane:set_config_overrides(overrides)
+		end),
+	},
+	{
+		key = "-",
+		mods = "CTRL|SHIFT",
+		action = wezterm.action_callback(function(window, pane)
+			local overrides = pane:get_config_overrides() or {}
+			overrides.font_size = (overrides.font_size or config.font_size or 12) - 1.0
+			pane:set_config_overrides(overrides)
+		end),
 	},
 }
 
