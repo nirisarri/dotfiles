@@ -29,9 +29,6 @@ fi
 # PATH CONFIGURATION
 # ============================================================================
 path+=("$HOME/.local/bin")
-{{- if eq .chezmoi.os "darwin" }}
-path+=/Applications/GoLand.app/Contents/MacOS
-{{- end }}
 
 # path+=("/usr/local/go/bin")
 # path+=("$HOME/go/bin")
@@ -148,9 +145,12 @@ alias dss='docker stack services'
 alias ds='docker stack'
 
 # Utility aliases
-# alias tf='terraform'
-alias cat2='/bin/cat'          # Fallback to system cat
-(( $+commands[bat] )) && alias cat='bat'
+alias tf='terraform'
+
+if (( $+commands[bat] )); then
+  alias cat='bat'
+  alias cat2='/bin/cat'          # Fallback to system cat
+fi
 alias thanos='rm -rf'          # Dangerous remove (use with caution!)
 alias ".."="cd .."
 alias "..."="cd ../.."
@@ -179,9 +179,9 @@ if (( $+commands[aws] )); then
     fi
   }
 fi
-{{- if $wsl }}
 
-# WSL: use the Windows ssh client/agent
+{{- if $wsl }}
+# wsl: use the windows ssh client/agent
 alias ssh='ssh.exe'
 alias ssh-add='ssh-add.exe'
 {{- end }}
@@ -189,16 +189,16 @@ alias ssh-add='ssh-add.exe'
 # ============================================================================
 # PYENV
 # ============================================================================
-export PYENV_ROOT="$HOME/.pyenv"
-[[ -d $PYENV_ROOT/bin ]] && path=("$PYENV_ROOT/bin" $path)
-(( $+commands[pyenv] )) && eval "$(pyenv init - zsh)"
-
+# export PYENV_ROOT="$HOME/.pyenv"
+# [[ -d $PYENV_ROOT/bin ]] && path=("$PYENV_ROOT/bin" $path)
+# (( $+commands[pyenv] )) && eval "$(pyenv init - zsh)"
+# 
 # ============================================================================
 # UV TOOL SHELL COMPLETIONS
 # ============================================================================
 (( $+commands[uv] )) && eval "$(uv generate-shell-completion zsh)"
-{{- if eq .chezmoi.os "darwin" }}
 
+{{- if eq .chezmoi.os "darwin" }}
 # ============================================================================
 # SSH AGENT REDIRECT TO 1PASSWORD (macOS only — in devcontainers DevPod
 # forwards the host agent and sets SSH_AUTH_SOCK itself)
