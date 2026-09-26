@@ -1,26 +1,16 @@
 # Casks + formulae mise doesn't cover. Personal CLI tools that mise can
 # manage live in ~/.config/mise/config.toml instead (shared with every
 # devcontainer); GUI apps and mise-unsupported CLIs stay here.
-# Distributed revision control system
-brew "git"
 # Improved top (interactive process viewer)
 brew "htop"
 # User-friendly cURL replacement (command-line HTTP client)
 brew "httpie"
-# Fast, highly customisable system info script (neofetch is unmaintained/removed from homebrew-core)
-brew "fastfetch"
-# Python version management
-brew "pyenv"
-# JavaScript toolchain manager for reproducible environments
-brew "volta"
 # Password manager that keeps all passwords secure behind one password
 cask "1password"
 # Command-line interface for 1Password
 cask "1password-cli"
 # Enable Windows-like alt-tab
 cask "alt-tab"
-# Terminal-based AI coding assistant
-cask "claude-code"
 # Brings the power of Copilot coding agent directly to your terminal
 # cask "copilot-cli"
 # Databases and SQL IDE
@@ -29,53 +19,37 @@ cask "font-fira-code-nerd-font"
 cask "font-geist-mono-nerd-font"
 cask "font-hack-nerd-font"
 cask "font-hasklug-nerd-font"
-# cask "font-jetbrains-mono"
+cask "font-jetbrains-mono"
 cask "font-jetbrains-mono-nerd-font"
 cask "font-lilex-nerd-font"
 cask "font-meslo-lg-nerd-font"
 cask "font-roboto-flex"
 cask "font-roboto-mono-nerd-font"
 cask "font-roboto-slab"
-# Terminal emulator that uses platform-native UI and GPU acceleration
-cask "ghostty"
-# Go (golang) IDE
-cask "goland"
 # Convert your caps lock key or any of your modifier keys to the hyper key
 cask "hyperkey"
-# Java IDE by JetBrains
-cask "intellij-idea"
-# Terminal emulator as alternative to Apple's Terminal app
-cask "iterm2"
 # Utility for comparing and merging files and directories
 cask "kdiff3"
-# Neovim Client
-cask "neovide-app"
 # Knowledge base that works on top of a local folder of plain text Markdown files
 cask "obsidian"
 # Replacement for Docker Desktop
 cask "orbstack"
 # Collaboration platform for API development
 cask "postman"
-# IDE for professional Python development
-cask "pycharm"
 # Control your tools with a few keystrokes
 cask "raycast"
 # Move and resize windows using keyboard shortcuts or snap areas
 cask "rectangle"
-# .NET IDE
-cask "rider"
 # Team communication and collaboration software
 cask "slack"
-# JavaScript IDE
-cask "webstorm"
 # GPU-accelerated cross-platform terminal emulator and multiplexer
 cask "wezterm"
 # Connect to Windows
 cask "windows-app"
 # Mind mapping and brainstorming tool
 cask "xmind"
-# Multiplayer code editor
-cask "zed"
+
+########## VS Code extensions ##########
 vscode "andenetalexander.vim-cheatsheet"
 vscode "antfu.browse-lite"
 vscode "asvetliakov.vscode-neovim"
@@ -86,8 +60,6 @@ vscode "catppuccin.catppuccin-vsc-icons"
 vscode "chrisjsewell.myst-tml-syntax"
 vscode "docker.docker"
 vscode "eamodio.gitlens"
-# vscode "github.copilot"
-# vscode "github.copilot-chat"
 vscode "github.vscode-pull-request-github"
 vscode "golang.go"
 vscode "graphql.vscode-graphql-syntax"
