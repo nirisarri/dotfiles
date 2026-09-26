@@ -9,7 +9,7 @@
     "workbench.colorTheme": "Tokyo Night Gogh",
     "explorer.confirmDragAndDrop": false,
     "editor.fontLigatures": true,
-    "terminal.integrated.fontFamily": "'JetBrainsMono Nerd Font'",
+    "terminal.integrated.fontFamily": "'JetBrainsMono Nerd Font Ligaturized'",
     "terminal.integrated.copyOnSelection": true,
     "terminal.integrated.cursorBlinking": true,
     "terminal.integrated.cursorStyle": "line",
@@ -120,7 +120,6 @@
     "editor.renderWhitespace": "all",
     "azureFunctions.showProjectWarning": false,
     "dev.containers.forwardWSLServices": false,
-    "@azure.argTenant": "c37f3649-06e1-4223-92b4-fd0c1c66c841",
     "chat.hookFilesLocations": {
         ".github/hooks": true,
         ".claude/settings.local.json": true,
@@ -131,89 +130,9 @@
     },
     "git.autofetch": true,
     "gitlens.launchpad.indicator.enabled": false,
-    "mssql.connectionGroups": [
-        {
-            "name": "ROOT",
-            "id": "ROOT"
-        },
-        {
-            "name": "TexMix",
-            "color": "#C50F1F",
-            "id": "bd59717f-e831-4b19-a649-1da0ec5ad1fd",
-            "parentId": "ROOT"
-        },
-        {
-            "name": "LOCAL",
-            "color": "#7160E8",
-            "id": "2897d80e-5807-48cb-a49a-001d043e814c",
-            "parentId": "ROOT"
-        }
-    ],
-    "mssql.connections": [
-        {
-            "server": "tcp:tm-ati-sql-southcentral.database.windows.net,1433",
-            "port": 1433,
-            "database": "TicketProcessingDB",
-            "user": "sqladmin",
-            "password": "",
-            "authenticationType": "SqlLogin",
-            "encrypt": "Strict",
-            "trustServerCertificate": false,
-            "connectTimeout": 30,
-            "commandTimeout": 30,
-            "connectRetryCount": 1,
-            "connectRetryInterval": 10,
-            "applicationName": "vscode-mssql",
-            "profileName": "TexMix Dev",
-            "savePassword": true,
-            "groupId": "bd59717f-e831-4b19-a649-1da0ec5ad1fd",
-            "id": "798ea3f4-2568-4ade-b850-5da33d330441",
-            "profileSource": 0
-        },
-        {
-            "server": "tcp:tm-ati-sql-southcentral.database.windows.net,1433",
-            "port": 1433,
-            "database": "TicketProcessingDB-Prod",
-            "user": "sqladmin",
-            "password": "",
-            "authenticationType": "SqlLogin",
-            "encrypt": "true",
-            "trustServerCertificate": false,
-            "connectTimeout": 30,
-            "commandTimeout": 30,
-            "connectRetryCount": 1,
-            "connectRetryInterval": 10,
-            "applicationName": "vscode-mssql",
-            "profileName": "PRODUCTION",
-            "savePassword": true,
-            "groupId": "bd59717f-e831-4b19-a649-1da0ec5ad1fd",
-            "id": "ceb318a0-ce51-49e7-a582-c84659f118a4"
-        },
-        {
-            "authenticationType": "SqlLogin",
-            "connectTimeout": 30,
-            "applicationName": "vscode-mssql",
-            "applicationIntent": "ReadWrite",
-            "server": "tm_ati_db",
-            "database": "ingestion",
-            "user": "sa",
-            "password": "",
-            "commandTimeout": 30,
-            "encrypt": "Optional",
-            "groupId": "2897d80e-5807-48cb-a49a-001d043e814c",
-            "profileName": "local",
-            "trustServerCertificate": true,
-            "id": "a588e927-c7ff-4767-a408-e3fef8e5b39d",
-            "profileSource": 0,
-            "containerName": "tm_ati_db",
-            "savePassword": true
-        }
-    ],
     "chat.tools.terminal.autoApprove": {
         "pytest": true,
         "bun": true,
-        "/workspaces/TM-AutomatedTicketIngestion/venv/bin/pip": true,
-        "/workspaces/TM-AutomatedTicketIngestion/venv/bin/python": true,
         "docker cp": true,
         "docker restart": true,
         "git fetch": true
@@ -236,14 +155,5 @@
     },
     "extensions.experimental.affinity": {
         "asvetliakov.vscode-neovim": 1
-    },
-    "chat.tools.urls.autoApprove": {
-        "https://code.visualstudio.com": true,
-        "https://github.com/microsoft/vscode/wiki/*": true,
-        "https://github.com": {
-            "approveRequest": false,
-            "approveResponse": true
-        }
-    },
-    "editor.fontVariations": false
+    }
 }
