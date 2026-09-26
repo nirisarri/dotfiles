@@ -11,14 +11,18 @@ and [mise](https://mise.jdx.dev). Works on macOS, WSL and in any devcontainer.
 | `dot_config/mise/config.local.toml`          | `~/.config/mise/config.local.toml` (macOS only; host-only tools, see below) |
 | `dot_config/starship.toml`                   | `~/.config/starship.toml`    |
 | `private_dot_ssh/gh-personal.pub`, `gh-aim.pub` | `~/.ssh/` (public keys only, to pick a GitHub key per repo) |
+| `private_dot_ssh/private_config`             | `~/.ssh/config` (Linux/devcontainer only, see below) |
 | `.chezmoi.toml.tmpl`                         | `~/.config/chezmoi/chezmoi.toml` (git name/email) |
 | `run_onchange_after_10-mise-install.sh.tmpl` | runs `mise install` when the tool list changes |
 | `.chezmoiexternal.toml`                      | zsh-autosuggestions + zsh-syntax-highlighting in `~/.local/share/zsh/plugins` (refreshed weekly) |
 | `dot_wezterm.lua`                            | `~/.wezterm.lua` (macOS only) |
+| `dot_ideavimrc`                              | `~/.ideavimrc` (IdeaVim config shared by JetBrains IDEs) |
+| `dot_config/nvim/`                           | `~/.config/nvim` (LazyVim-based Neovim config) |
 | `dot_config/1Password/ssh/agent.toml`        | `~/.config/1Password/ssh/agent.toml` (macOS only; key/vault references only, no secrets) |
 | `dot_config/homebrew/Brewfile`               | `~/.config/homebrew/Brewfile` (macOS only) |
 | `run_onchange_before_05-brew-bundle.sh.tmpl` | installs Homebrew if missing and runs `brew bundle` when the Brewfile changes (macOS only, no-op elsewhere) |
 | `Library/Application Support/Code/User/settings.json` | same path under `~/` (macOS only; VS Code desktop settings) |
+| `dot_devpod/config.yaml`                     | `~/.devpod/config.yaml` (default DevPod context, incl. `DOTFILES_URL`) |
 
 `install.sh` at the repo root is the bootstrap entry point for DevPod,
 VS Code Dev Containers and Codespaces.
@@ -52,6 +56,12 @@ Git config lives in `~/.config/git/config` (not `~/.gitconfig`) so it never
 overwrites the credential helper DevPod / VS Code inject into `~/.gitconfig`.
 
 Machine-specific shell tweaks that shouldn't be shared go in `~/.zshrc.local`.
+
+`~/.ssh/config` is only managed on Linux/devcontainers: on macOS it's owned by
+OrbStack (which requires its `Include` line to stay first) and DevPod (which
+injects a `# DevPod Start` block per workspace), so chezmoi stays hands-off
+there (see `.chezmoiignore`). It only ever references the public key files
+above; the private halves stay in the forwarded 1Password SSH agent.
 
 ## Prompt
 
