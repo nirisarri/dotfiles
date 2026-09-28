@@ -73,24 +73,31 @@ config.freetype_load_target = "Light"
 config.freetype_render_target = "HorizontalLcd"
 config.freetype_load_flags = "NO_HINTING"
 -- => www >= -> ===
-config.font_size = 16.0
+config.font_size = 18.0
 -- config.enable_tab_bar = false
--- config.window_decorations = "RESIZE"
+config.window_decorations = "RESIZE"
+config.initial_rows = 40
+config.initial_cols = 140
 
 config.color_scheme = "Tokyo Night"
 --config.window_background_opacity = 0.9
-config.mouse_bindings = {
-	{
+config.mouse_bindings = {}
+
+for _, reporting in ipairs({ false, true }) do
+	table.insert(config.mouse_bindings, {
 		event = { Down = { streak = 1, button = { WheelUp = 1 } } },
 		mods = "CMD",
-		action = wezterm.action.IncreaseFontSize,
-	},
-	{
+		mouse_reporting = reporting,
+		action = act.IncreaseFontSize,
+	})
+	table.insert(config.mouse_bindings, {
 		event = { Down = { streak = 1, button = { WheelDown = 1 } } },
 		mods = "CMD",
-		action = wezterm.action.DecreaseFontSize,
-	},
-}
+		mouse_reporting = reporting,
+		action = act.DecreaseFontSize,
+	})
+end
+
 config.leader = { key = "Space", mods = "SHIFT", timeout_milliseconds = 1500 }
 config.keys = {
 	{
