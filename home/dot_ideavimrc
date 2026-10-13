@@ -22,39 +22,47 @@ set timeoutlen=5000
 " --- KEY MAPPINGS ---
 " Set leader key to spacebar, just like many modern Neovim setups
 let mapleader = " "
-inoremap jj <Esc>
+imap jj <Esc>
+imap jk <Esc>
 
 nmap s <Action>(flash.search)
 xmap s <Action>(flash.search)
 
 
+" Move selected block up and down in Visual mode
+vmap K :m '<-2<CR>gv=gv
+vmap J :m '>+1<CR>gv=gv
+
+" Center the search result in the screen as we move through the results
+nmap N Nzz
+nmap n nzz
 
 " Map <leader>fb to 'Recent Files' (Buffer Search)
-nnoremap <leader>fb :action RecentFiles<CR>
+nmap <leader>fb :action RecentFiles<CR>
 
 " Map <leader>fs to 'Structure' (Document Symbols / Outline)
-nnoremap <leader>fs :action FileStructurePopup<CR>
+nmap <leader>fs :action FileStructurePopup<CR>
 
 " Clear search highlights quickly
-nnoremap <leader>h :nohlsearch<CR>
+nmap <leader>h :nohlsearch<CR>
 
 " Toggle the Project/Solution Tree sidebar
-nnoremap <leader>e :action ActivateProjectToolWindow<CR>
+nmap <leader>e :action ActivateProjectToolWindow<CR>
 
 
 " --- INTEGRATION WITH JETBRAINS IDE FEATURES ---
 " Map your Neovim habits to trigger powerful JetBrains actions
-nnoremap <leader>ff :action GotoFile<CR>         " Find file (like Telescope/FZF)
-nnoremap <leader>fg :action FindInPath<CR>       " Live grep / Find in files
-" nnoremap <leader>ee :action ActivateProjectToolWindow<CR> " Toggle file tree sidebar
-nnoremap <leader>ca :action ShowIntentionActions<CR>     " Code actions / Quick fix
+nmap <leader>ff :action GotoFile<CR>         " Find file (like Telescope/FZF)
+nmap <leader>fg :action FindInPath<CR>       " Live grep / Find in files
+" nmap <leader>ee :action ActivateProjectToolWindow<CR> " Toggle file tree sidebar
+nmap <leader>ca :action ShowIntentionActions<CR>     " Code actions / Quick fix
 
 " Go to definition (like Neovim LSP)
-nnoremap gd :action GotoDeclaration<CR>
+nmap gd :action GotoDeclaration<CR>
 " Find usages / references
-nnoremap gr :action FindUsages<CR>
+nmap gr :action FindUsages<CR>
 " Rename variable/method safely across the project
-nnoremap <leader>rn :action RenameElement<CR>
+nmap <leader>rn :action RenameElement<CR>
 
 map Q gq
 
@@ -65,6 +73,9 @@ Plug 'tpope/vim-commentary'
 " Jetbrains IDE Integrations
 map \r <Action>(ReformatCode)
 map <leader>d <Action>(Debug)
-inoremap jk <Esc>
 map <leader>r <Action>(Refactorings.QuickListPopupAction)
 map <leader><space> <Action>(ShowIntentionActions)
+map <leader>w <Action>(EditorSelectWord)
+
+map <C-S-[> :action EditorSelectWord<CR>
+map <C-S-]> :action EditorUnselectWord<CR>
