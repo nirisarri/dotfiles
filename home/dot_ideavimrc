@@ -28,6 +28,8 @@ imap jk <Esc>
 nmap s <Action>(flash.search)
 xmap s <Action>(flash.search)
 
+" Remove trailing whitespace with <leader>gb
+nnoremap <leader>gb :s/^\s\+$//<CR>
 
 " Move selected block up and down in Visual mode
 vmap K :m '<-2<CR>gv=gv
