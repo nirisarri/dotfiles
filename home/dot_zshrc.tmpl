@@ -104,9 +104,9 @@ zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 if (( $+commands[fzf] )); then
   source <(fzf --zsh)
   # Use fd for faster file searching with fzf, excluding .git directories
-  export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
+  export FZF_DEFAULT_COMMAND="fd --hidden --no-ignore-vcs --strip-cwd-prefix --exclude .git --exclude-node-modules --exclude bin --exclude obj --exclude brew"
   export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-  export FZF_ALT_C_COMMAND="fd --type d --hidden --strip-cwd-prefix --exclude .git"
+  export FZF_ALT_C_COMMAND="fd --type d --hidden --no-ignore-vcs --strip-cwd-prefix --exclude .git --exclude-node-modules --exclude bin --exclude obj --exclude brew"
   export FZF_CTRL_T_OPTS="--preview 'bat --color=always --number {}"
   export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always --level=2 {}"
 fi
@@ -119,7 +119,10 @@ fi
 
 # alias to open fzf with a preview window for file contents or directory tree
 fzp() {
-  fzf --preview 'bat --color=always --style=numbers --line-range=:500 {} 2>/dev/null || eza --tree --color=always --level=2 {}' \
+  local query="$1"
+  (( $# )) && shift
+  fzf --query="$query" \
+      --preview 'bat --color=always --style=numbers --line-range=:500 {} 2>/dev/null || eza --tree --color=always --level=2 {}' \
       --preview-window=right,60%,border-left \
       --bind 'ctrl-/:toggle-preview' "$@"
 }
@@ -127,7 +130,7 @@ fzp() {
 # alias to open a file selected via fzf in the default editor
 vf() {
   local file
-  file=$(fzp --query="$1") && ${EDITOR:-vim} "$file"
+  file=$(fzp "$1") && ${EDITOR:-vim} "$file"
 }
 
 # ============================================================================
