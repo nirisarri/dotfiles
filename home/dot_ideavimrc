@@ -54,17 +54,19 @@ nmap <leader>e :action ActivateProjectToolWindow<CR>
 
 " --- INTEGRATION WITH JETBRAINS IDE FEATURES ---
 " Map your Neovim habits to trigger powerful JetBrains actions
-nmap <leader>ff :action GotoFile<CR>         " Find file (like Telescope/FZF)
-nmap <leader>fg :action FindInPath<CR>       " Live grep / Find in files
+nmap <leader>ff <Action>(GotoFile)
+nmap <leader>fg <Action>(FindInPath)
 " nmap <leader>ee :action ActivateProjectToolWindow<CR> " Toggle file tree sidebar
-nmap <leader>ca :action ShowIntentionActions<CR>     " Code actions / Quick fix
+nmap <leader>ca <Action>(ShowIntentionActions)
+nmap <leader>cg <Action>(Generate)
 
 " Go to definition (like Neovim LSP)
-nmap gd :action GotoDeclaration<CR>
+nmap gd <Action>(GotoDeclaration)
 " Find usages / references
-nmap gr :action FindUsages<CR>
+nmap gr <Action>(FindUsages)
 " Rename variable/method safely across the project
-nmap <leader>rn :action RenameElement<CR>
+nmap <leader>rn <Action>(RenameElement)
+nmap <leader>rr <Action>(Refactorings.QuickListPopupAction)
 
 map Q gq
 
@@ -78,6 +80,9 @@ map <leader>d <Action>(Debug)
 map <leader>r <Action>(Refactorings.QuickListPopupAction)
 map <leader><space> <Action>(ShowIntentionActions)
 map <leader>w <Action>(EditorSelectWord)
+map <leader>tq <Action>(RiderUnitTestQuickListPopupAction)
+map <leader>tt <Action>(RiderUnitTestRunContextAction)
+map <leader>ts <Action>(RiderUnitTestRunCurrentSessionAction)
 
 map <C-S-[> :action EditorSelectWord<CR>
 map <C-S-]> :action EditorUnselectWord<CR>
