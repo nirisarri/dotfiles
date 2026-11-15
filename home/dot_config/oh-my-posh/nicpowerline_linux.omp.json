@@ -1,0 +1,205 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "transient_prompt": {
+    "background": "transparent",
+    "foreground": "p:os",
+    "template": "󰄿 "
+  },
+  "blocks": [
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "newline": false,
+      "segments": [
+        {
+          "options": {
+            "folder_separator_icon": "",
+            "folder_icon": "📂",
+            "home_icon": "🏡",
+            "mapped_locations": {
+              "~/code": "🚀",
+              "~/aimcode": "🎯"
+            },
+            "style": "full"
+          },
+          "template": "{{ .Path }}",
+          "foreground": "#3B4F6A",
+          "background": "#FFCF48",
+          "leading_powerline_symbol": "",
+          "powerline_symbol": "",
+          "type": "path",
+          "style": "powerline"
+        },
+        {
+          "template": "  {{ if .Unsupported }}{{ else }}{{ .Full }}{{ end }} ",
+          "foreground": "#ffffff",
+          "powerline_symbol": "",
+          "background": "#F08864",
+          "type": "dotnet",
+          "style": "powerline"
+        },
+        {
+          "options": {
+            "branch_ahead_icon": " ↑",
+            "branch_behind_icon": " ↓",
+            "branch_gone_icon": "",
+            "branch_icon": " ",
+            "branch_identical_icon": " ≡",
+            "cherry_pick_icon": " ",
+            "commit_icon": " ",
+            "fetch_status": true,
+            "fetch_upstream_icon": true,
+            "merge_icon": " ",
+            "no_commits_icon": " ",
+            "rebase_icon": " ",
+            "revert_icon": " ",
+            "tag_icon": " "
+          },
+          "template": " {{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} <#E84855>{{ .Working.String }}</>{{ end }}{{ if and (.Staging.Changed) (.Working.Changed) }} |{{ end }}{{ if .Staging.Changed }}  <#2FDA4E>{{ .Staging.String }}</>{{ end }} ",
+          "foreground": "#f0f0f0",
+          "powerline_symbol": "",
+          "background": "#2E465D",
+          "type": "git",
+          "style": "powerline",
+          "foreground_templates": [
+            "{{ if or (.Working.Changed) (.Staging.Changed) }}#ffeb3b{{ end }}",
+            "{{ if gt .Ahead 0 }}#8A4FFF{{ end }}",
+            "{{ if gt .Behind 0 }}#2EC4B6{{ end }}"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "prompt",
+      "alignment": "right",
+      "newline": false,
+      "segments": [
+        {
+          "template": " |{{.Profile}}{{if .Region}}@{{.Region}}{{end}} ",
+          "foreground": "#0a0a0a",
+          "powerline_symbol": "",
+          "invert_powerline": false,
+          "leading_powerline_symbol": "",
+          "background": "#FFA400",
+          "type": "aws",
+          "style": "powerline",
+          "options": {
+            "display_default": false
+            // "display_mode": "context"
+          }
+        },
+        {
+          "type": "az",
+          "style": "powerline",
+          "powerline_symbol": "",
+          "invert_powerline": false,
+          "leading_powerline_symbol": "",
+          "foreground": "#000000",
+          "background": "#9ec3f0",
+          "template": "  {{ .EnvironmentName }}",
+          "options": {
+            "source": "cli"
+          }
+        },
+        {
+          "type": "docker",
+          "options": {
+            "display_mode": "files"
+          },
+          "style": "powerline",
+          "powerline_symbol": "",
+          "invert_powerline": false,
+          "leading_powerline_symbol": "",
+          "foreground": "#000000",
+          "background": "#0B59E7",
+          "template": " 󰡨 "
+        },
+        {
+          "options": {
+            "display_mode": "files"
+          },
+          "type": "node",
+          "style": "powerline",
+          "powerline_symbol": "",
+          "invert_powerline": false,
+          "leading_powerline_symbol": "",
+          "foreground": "#193549",
+          "background": "#5b7c4e",
+          "template": "󰎙{{ .Full }}"
+        },
+        // {
+        //   "type": "project",
+        //   "style": "powerline",
+        //   "options": {"always_enabled": false},
+        //   "files": "pyproject.toml",
+        //   "powerline_symbol": "",
+        //   "invert_powerline": false,
+        //   "leading_powerline_symbol": "",
+        //   "foreground": "#ffd43b",
+        //   "background": "#306998",
+        //   "template": " {{.Target}}"
+        // }, 
+        {
+          "type": "python",
+          "options": {
+            "display_mode": "files"
+          },
+          "style": "powerline",
+          "powerline_symbol": "",
+          "invert_powerline": false,
+          "leading_powerline_symbol": "",
+          "foreground": "#ffd43b",
+          "background": "#306998",
+          "template": "  {{if .Venv}}venv{{.Venv}}|{{end}}{{ .Full }} "
+        }
+      ]
+    },
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "newline": true,
+      "segments": [
+        {
+          "options": {
+            "cache_duration": "none"
+          },
+          "leading_diamond": "",
+          "template": "  ",
+          "foreground": "#FFEE58",
+          "type": "root",
+          "style": "plain"
+        },
+        {
+          "template": " <b>{{.Icon}}</b> ",
+          "foreground": "#26C6DA",
+          "type": "os",
+          "style": "plain"
+        },
+        {
+          "options": {
+            "always_enabled": true,
+            "cache_duration": "none"
+          },
+          "template": "{{ if gt .Code 0 }} ❌{{ else }} {{ end }} ",
+          "foreground": "#66D372",
+          "type": "exit",
+          "style": "plain",
+          "foreground_templates": [
+            "{{ if gt .Code 0 }}#e91e63{{ end }}"
+          ]
+        },
+        {
+          "options": {
+            "cache_duration": "none"
+          },
+          "template": "󰅂",
+          "foreground": "#E06C75",
+          "type": "text",
+          "style": "plain"
+        }
+      ]
+    }
+  ],
+  "version": 3,
+  "final_space": true
+}
