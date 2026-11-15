@@ -17,11 +17,6 @@ Host github-personal
 	IdentityFile ~/.ssh/gh-personal.pub
 	IdentitiesOnly yes
 
-Host github-aim
-	HostName github.com
-	User git
-	IdentityFile ~/.ssh/gh-aim.pub
-	IdentitiesOnly yes
 
 # Bare github.com defaults to the personal key, matching the 1Password agent
 # ordering in ~/.config/1Password/ssh/agent.toml. Use the github-aim alias for
