@@ -1,0 +1,51 @@
+[default]
+sso_session = nic-sso
+sso_account_id = 558846947516
+sso_role_name = SystemAdministrator
+region = us-east-1
+output = json
+
+[profile aim]
+sso_session = aim-sso
+sso_account_id = 212114479343
+sso_role_name = PowerUserAccess
+region = us-east-1
+output = json
+
+[sso-session aim-sso]
+sso_start_url = https://aimllc.awsapps.com/start/
+sso_region = us-east-2
+sso_registration_scopes = sso:account:access
+
+[profile sbux]
+sso_session = aim-sso
+sso_account_id = 212114479343
+sso_role_name = PowerUserAccess
+region = us-east-2
+output = json
+
+[profile sbux-west]
+sso_session = aim-sso
+sso_account_id = 212114479343
+sso_role_name = PowerUserAccess
+region = us-west-2
+output = json
+
+[sso-session nic-sso]
+sso_start_url = https://nirisarri-aws.awsapps.com/start/#
+sso_region = us-east-1
+sso_registration_scopes = sso:account:access
+[profile PowerUserAccess-212114479343]
+sso_session = aim-sso
+sso_account_id = 212114479343
+sso_role_name = PowerUserAccess
+region = us-east-2
+output = json
+[profile personal]
+login_session = arn:aws:iam::558846947516:root
+region = us-east-1
+[profile iamAdmin]
+sso_session = aim-sso
+sso_account_id = 212114479343
+sso_role_name = IAMAdminAccess
+region = us-east-1
